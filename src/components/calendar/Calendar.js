@@ -1,5 +1,4 @@
 // librerias de terceros
-
 import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment';
@@ -13,6 +12,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 // compoenntes propios
 import { NavBar } from '../ui/NavBar';
 import { CalendarEvent } from './CalendarEvent';
+import { CalendarModel } from './CalendarModel';
 
 moment.locale("es")
 
@@ -51,7 +51,7 @@ const onViewChange = (e) => {
 }
 
     const eventStyleGetter = ( event, start, end, isSelected) => {
-        console.log( event, start, end, isSelected)
+        // console.log( event, start, end, isSelected)
         const style =  {
             backgroundColor: '#00000',
             borderRadius: '0px',
@@ -66,23 +66,26 @@ const onViewChange = (e) => {
     return (
         <div className="calendar-sreen" >
             <NavBar />
+            
             <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-            messages={messages}
-            eventPropGetter ={eventStyleGetter}
-            onDoubleClick={ onDoubleClick}
-            onSelectEvent={ onSelectEvent}
-            onView={ onViewChange }
-            view={ lastView }
-            components = {{ 
+                localizer={localizer}
+                events={events}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: 500 }}
+                messages={messages}
+                eventPropGetter ={eventStyleGetter}
+                onDoubleClick={ onDoubleClick}
+                onSelectEvent={ onSelectEvent}
+                onView={ onViewChange }
+                view={ lastView || 'month' }
+                components = {{ 
 
-                event: CalendarEvent
-             }}
+                    event: CalendarEvent
+                }}
             />
+
+            <CalendarModel />
  
         </div>
     )
