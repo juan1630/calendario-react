@@ -13,6 +13,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { NavBar } from '../ui/NavBar';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModel } from './CalendarModel';
+import { useDispatch } from 'react-redux';
+import { uiOpenModal } from '../../actions/ui';
 
 moment.locale("es")
 
@@ -30,27 +32,34 @@ const events = [{
 
 
 export const CalendarScreen = () => {
-
     
-const localizer = momentLocalizer(moment)
+    const dispatch = useDispatch();
 
-const [lastView, setlastView] = useState(localStorage.getItem('lastView' || 'month '));
+    const localizer = momentLocalizer(moment)
+    const [lastView, setlastView] = useState(localStorage.getItem('lastView' || 'month '));
 
-const onDoubleClick = (e) => {
+    // TODO QUEDA PENDIENTE ESTA FUNCIO QUE NO SE EJECUTA
+    const onDoubleClick = (e) => {
+        console.log(e)
+        // hacemos el dispatch de la accion
+        console.log("Se ejecuta");
 
-}
+        dispatch( uiOpenModal() );
+    }
 
-const onSelectEvent = (e) => {
-    // console.log(e);
-}
+    const onSelectEvent = (e) => {
+        // console.log(e);
+    }
 
-const onViewChange = (e) => {
-    // console.log(e);
-    setlastView(e);
-    localStorage.setItem('lastView', e);
-}
+    const onViewChange = (e) => {
+        // console.log(e);
+        setlastView(e);
+        localStorage.setItem('lastView', e);
+    }
 
     const eventStyleGetter = ( event, start, end, isSelected) => {
+
+
         // console.log( event, start, end, isSelected)
         const style =  {
             backgroundColor: '#00000',
@@ -64,6 +73,9 @@ const onViewChange = (e) => {
     };
     
     return (
+
+
+
         <div className="calendar-sreen" >
             <NavBar />
             
