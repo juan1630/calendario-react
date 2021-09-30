@@ -3,7 +3,8 @@ import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { uiCloseModal } from '../../actions/ui';
 
 
 const customStyles = {
@@ -26,8 +27,10 @@ Modal.setAppElement('#root');
 
 export const CalendarModel = () => {
     
-        // para estar a la escucha de los cambios del state se usa el useSelector
-        const {modalOpen} = useSelector(state => state.ui)
+    const dispatch = useDispatch();
+
+    // para estar a la escucha de los cambios del state se usa el useSelector
+    const {modalOpen} = useSelector(state => state.ui)
 
     // state que controla el cambio de fechas en el input
     const [dateStart, setdateStart] = useState(now.toDate());
@@ -82,7 +85,7 @@ export const CalendarModel = () => {
     }
 
     const closeModal = (e) => {
-        // TODO: CERRA EL MODAL
+            dispatch( uiCloseModal());
     }
 
     const handleStartDateChange = (e) => {
