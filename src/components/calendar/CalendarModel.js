@@ -5,6 +5,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
+import { eventAddNew } from '../../actions/events';
 
 
 const customStyles = {
@@ -60,6 +61,7 @@ export const CalendarModel = () => {
 
     // manejamos el evento del submit del formulario 
     const  handleSubmit = (e) => {
+
         e.preventDefault();
 
         // pasamos de las fechas naturales de JS a las de moment
@@ -77,8 +79,17 @@ export const CalendarModel = () => {
             settitleValid( false)
             return;
         }
-
         // TODO GRABAR EN LA DB
+        dispatch( eventAddNew({
+            ...formValues,
+            _id: new Date().getTime(),
+            user: {
+                _id: '123ABC',
+                name: 'Juan Patrón'
+            }
+            // este ID es temporal
+        }));
+
         settitleValid(true);
         closeModal();
 
