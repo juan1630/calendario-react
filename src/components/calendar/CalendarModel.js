@@ -3,7 +3,9 @@ import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { uiCloseModal } from '../../actions/ui';
+import { eventAddNew } from '../../actions/events';
 
 
 const customStyles = {
@@ -26,8 +28,10 @@ Modal.setAppElement('#root');
 
 export const CalendarModel = () => {
     
-        // para estar a la escucha de los cambios del state se usa el useSelector
-        const {modalOpen} = useSelector(state => state.ui)
+    const dispatch = useDispatch();
+
+    // para estar a la escucha de los cambios del state se usa el useSelector
+    const {modalOpen} = useSelector(state => state.ui)
 
     // state que controla el cambio de fechas en el input
     const [dateStart, setdateStart] = useState(now.toDate());
@@ -57,6 +61,7 @@ export const CalendarModel = () => {
 
     // manejamos el evento del submit del formulario 
     const  handleSubmit = (e) => {
+
         e.preventDefault();
 
         // pasamos de las fechas naturales de JS a las de moment
@@ -74,15 +79,24 @@ export const CalendarModel = () => {
             settitleValid( false)
             return;
         }
-
         // TODO GRABAR EN LA DB
+        dispatch( eventAddNew({
+            ...formValues,
+            _id: new Date().getTime(),
+            user: {
+                _id: '123ABC',
+                name: 'Juan Patrón'
+            }
+            // este ID es temporal
+        }));
+
         settitleValid(true);
         closeModal();
 
     }
 
     const closeModal = (e) => {
-        // TODO: CERRA EL MODAL
+            dispatch( uiCloseModal());
     }
 
     const handleStartDateChange = (e) => {

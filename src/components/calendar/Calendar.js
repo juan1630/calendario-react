@@ -15,6 +15,8 @@ import { CalendarEvent } from './CalendarEvent';
 import { CalendarModel } from './CalendarModel';
 import { useDispatch } from 'react-redux';
 import { uiOpenModal } from '../../actions/ui';
+import { eventSetActive } from '../../actions/events';
+import { AddNewFab } from '../ui/AddNewFab';
 
 moment.locale("es")
 
@@ -38,17 +40,15 @@ export const CalendarScreen = () => {
     const localizer = momentLocalizer(moment)
     const [lastView, setlastView] = useState(localStorage.getItem('lastView' || 'month '));
 
-    // TODO QUEDA PENDIENTE ESTA FUNCIO QUE NO SE EJECUTA
-    const onDoubleClick = (e) => {
-        console.log(e)
-        // hacemos el dispatch de la accion
-        console.log("Se ejecuta");
-
+    const onDoubleClickDispatch = (e) => {
+       
         dispatch( uiOpenModal() );
     }
 
     const onSelectEvent = (e) => {
         // console.log(e);
+        dispatch( eventSetActive(e));
+        dispatch( uiOpenModal());
     }
 
     const onViewChange = (e) => {
@@ -87,17 +87,18 @@ export const CalendarScreen = () => {
                 style={{ height: 500 }}
                 messages={messages}
                 eventPropGetter ={eventStyleGetter}
-                onDoubleClick={ onDoubleClick}
+                onDoubleClickEvent={ onDoubleClickDispatch }
                 onSelectEvent={ onSelectEvent}
                 onView={ onViewChange }
                 view={ lastView || 'month' }
                 components = {{ 
-
                     event: CalendarEvent
                 }}
             />
 
             <CalendarModel />
+
+            <AddNewFab />
  
         </div>
     )
