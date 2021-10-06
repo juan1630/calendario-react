@@ -14,3 +14,4 @@ export const eventAddNew = (event) => ({
  });
 
 
+export const limpiarNotaActiva = () => ({  type: types.eventClearActiveNote  });

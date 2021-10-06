@@ -13,7 +13,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { NavBar } from '../ui/NavBar';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModel } from './CalendarModel';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { uiOpenModal } from '../../actions/ui';
 import { eventSetActive } from '../../actions/events';
 import { AddNewFab } from '../ui/AddNewFab';
@@ -37,7 +37,9 @@ export const CalendarScreen = () => {
     
     const dispatch = useDispatch();
 
-    const localizer = momentLocalizer(moment)
+    const localizer = momentLocalizer(moment);
+    const {events} = useSelector(state => state.calendar)
+    
     const [lastView, setlastView] = useState(localStorage.getItem('lastView' || 'month '));
 
     const onDoubleClickDispatch = (e) => {
@@ -48,7 +50,7 @@ export const CalendarScreen = () => {
     const onSelectEvent = (e) => {
         // console.log(e);
         dispatch( eventSetActive(e));
-        dispatch( uiOpenModal());
+    
     }
 
     const onViewChange = (e) => {

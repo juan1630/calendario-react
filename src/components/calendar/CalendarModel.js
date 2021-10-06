@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew } from '../../actions/events';
+import { eventAddNew, limpiarNotaActiva } from '../../actions/events';
 
 
 const customStyles = {
@@ -25,13 +25,23 @@ Modal.setAppElement('#root');
   // configuracion para que la hora salga en  3:00:00
   const now = moment().minutes(0).seconds(0).add(1, 'hours');
   const datePlus1 = now.clone().add(1, 'hours');
+// se pudo afuera para que cada vez que se genera un nuevo cambio se vuelva a iniciaalizar el event
+  const initEvent = {
+    
+        title: '',
+        notes: '',
+        start: now.toDate(),
+        end: datePlus1
+    
+  }
 
 export const CalendarModel = () => {
     
     const dispatch = useDispatch();
 
     // para estar a la escucha de los cambios del state se usa el useSelector
-    const {modalOpen} = useSelector(state => state.ui)
+    const {modalOpen} = useSelector(state => state.ui);
+    const { activeEvent } = useSelector(state => state.calendar);
 
     // state que controla el cambio de fechas en el input
     const [dateStart, setdateStart] = useState(now.toDate());
@@ -39,15 +49,17 @@ export const CalendarModel = () => {
     const [titleValid, settitleValid] = useState(true);
     
     // estado incial del hook
-    const [formValues, setformValues] = useState({
-        title: 'evento',
-        notes: '',
-        start: now.toDate(),
-        end: datePlus1
-    });
+    const [formValues, setformValues] = useState(initEvent);
 
     // obtenemos estos parametros del state
     const { notes,  title, start, end} = formValues;
+
+    useEffect(() => {
+        
+        if(activeEvent) {
+            setformValues(activeEvent);
+        }
+    }, [activeEvent, setformValues]);
 
     // evemto que controla el cambio del formulario
     const handleInputChange = ({target}) => {
@@ -96,7 +108,10 @@ export const CalendarModel = () => {
     }
 
     const closeModal = (e) => {
-            dispatch( uiCloseModal());
+
+        dispatch( uiCloseModal());
+        dispatch( limpiarNotaActiva() );
+        setformValues( initEvent );
     }
 
     const handleStartDateChange = (e) => {
