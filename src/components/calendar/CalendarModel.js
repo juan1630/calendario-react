@@ -5,7 +5,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, limpiarNotaActiva } from '../../actions/events';
+import { eventAddNew, eventUpdated, limpiarNotaActiva } from '../../actions/events';
 
 
 const customStyles = {
@@ -58,6 +58,8 @@ export const CalendarModel = () => {
         
         if(activeEvent) {
             setformValues(activeEvent);
+        }else{
+            setformValues(initEvent);
         }
     }, [activeEvent, setformValues]);
 
@@ -91,16 +93,24 @@ export const CalendarModel = () => {
             settitleValid( false)
             return;
         }
-        // TODO GRABAR EN LA DB
-        dispatch( eventAddNew({
-            ...formValues,
-            _id: new Date().getTime(),
-            user: {
-                _id: '123ABC',
-                name: 'Juan Patrón'
-            }
-            // este ID es temporal
-        }));
+
+        if( activeEvent ) {
+            dispatch( eventUpdated( formValues) )
+        
+        }else {
+
+            dispatch( eventAddNew({
+                ...formValues,
+                _id: new Date().getTime(),
+                user: {
+                    _id: '123ABC',
+                    name: 'Juan Patrón'
+                }
+                // este ID es temporal
+            }));
+
+
+        }
 
         settitleValid(true);
         closeModal();
@@ -143,7 +153,7 @@ export const CalendarModel = () => {
             overlayClassName="modal-fondo"
         >
 
-    <h1> Nuevo evento </h1>
+    <h1> { (activeEvent) ? 'Ediatr evento' : 'Nuevo evento' } </h1>
     
     <hr/>
 

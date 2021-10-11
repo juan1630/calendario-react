@@ -15,3 +15,12 @@ export const eventAddNew = (event) => ({
 
 
 export const limpiarNotaActiva = () => ({  type: types.eventClearActiveNote  });
+
+
+export const eventUpdated = (event) => ({
+   type: types.eventUpdated,
+   payload: event
+});
+
+
+export const eventDeleted = () => ({ type: types.eventDeleted});
