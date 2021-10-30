@@ -7,7 +7,7 @@ import  './login.css'
 export const LoginScreen = () => {
 
     const [formLoginValues, handleLoginInputChange] = useForm({
-        lEmail: 'josejuanpa1630@gmail.com',
+        lEmail: 'juanpa1630@gmail.com',
         lPassword: '123456'
     });
 
@@ -22,7 +22,6 @@ export const LoginScreen = () => {
 
         dispatch( startLogin( lEmail, lPassword ) );
 
-        //TODO: hacer el dispatch
     }
 
 
