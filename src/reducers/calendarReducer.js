@@ -5,6 +5,7 @@ import { types } from "../types/types";
 const initialState = {
     // los eventos que tiene le calendario
     events: [{
+            id: new Date().getTime(),
             title: 'Cumpleaños de alguien',
             start: moment().toDate(),
             end: moment().add(2, 'hours').toDate(),
@@ -22,7 +23,8 @@ const initialState = {
 
 export const calendarReducer = ( state= initialState, action ) => {
     
-    switch (action.type) {    
+    switch (action.type) {  
+
         case types.eventSetActive:
             return{
                 ...state,
@@ -35,6 +37,24 @@ export const calendarReducer = ( state= initialState, action ) => {
                     ...state.events,
                     action.payload
                 ]
+            }
+        case types.eventClearActiveNote:
+            return {
+                ...state,
+                activeEvent: null
+            }
+
+        case types.eventUpdated:
+           return {
+                ...state,
+                events: state.events.map( e => (e.id === action.payload.id) ? action.payload : e   )
+            }
+            
+        case types.eventDeleted:
+            return {
+                ...state,
+                events: state.events.filter( event => (event.id !== state.activeEvent.id)),
+                activeEvent: null
             }
         default:
             return state;

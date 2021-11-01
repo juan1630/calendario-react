@@ -79,3 +79,11 @@ html, body {
     right: 5rem;
 }
 
+
+
+.fab-danger {
+    bottom: 2rem;
+    font-size: 1.8rem;
+    position: fixed;
+    left: 5rem;
+}

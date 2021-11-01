@@ -13,31 +13,21 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { NavBar } from '../ui/NavBar';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModel } from './CalendarModel';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { uiOpenModal } from '../../actions/ui';
-import { eventSetActive } from '../../actions/events';
+import { eventSetActive, limpiarNotaActiva } from '../../actions/events';
 import { AddNewFab } from '../ui/AddNewFab';
+import { EventDeleteFab } from '../ui/EventDeleteFab';
 
-moment.locale("es")
-
-const events = [{
-    title: 'Cumpleaños de alguien',
-    start: moment().toDate(),
-    end: moment().add(2, 'hours').toDate(),
-    bgcolor: '#FAFAFA',
-    notes: 'Comprar el pastel',
-    user: {
-        _id: '123',
-        name: 'Juan'
-    }
-}];
-
+moment.locale("es");
 
 export const CalendarScreen = () => {
     
     const dispatch = useDispatch();
 
-    const localizer = momentLocalizer(moment)
+    const localizer = momentLocalizer(moment);
+    const {events, activeEvent} = useSelector(state => state.calendar);
+
     const [lastView, setlastView] = useState(localStorage.getItem('lastView' || 'month '));
 
     const onDoubleClickDispatch = (e) => {
@@ -48,7 +38,7 @@ export const CalendarScreen = () => {
     const onSelectEvent = (e) => {
         // console.log(e);
         dispatch( eventSetActive(e));
-        dispatch( uiOpenModal());
+    
     }
 
     const onViewChange = (e) => {
@@ -72,6 +62,9 @@ export const CalendarScreen = () => {
         }
     };
     
+    const onSelectSlot = (e) => {
+        dispatch(limpiarNotaActiva())
+    }
     return (
 
 
@@ -89,6 +82,8 @@ export const CalendarScreen = () => {
                 eventPropGetter ={eventStyleGetter}
                 onDoubleClickEvent={ onDoubleClickDispatch }
                 onSelectEvent={ onSelectEvent}
+                onSelectSlot={onSelectSlot}
+                selectable={true}
                 onView={ onViewChange }
                 view={ lastView || 'month' }
                 components = {{ 
@@ -97,8 +92,10 @@ export const CalendarScreen = () => {
             />
 
             <CalendarModel />
-
             <AddNewFab />
+            {
+             (activeEvent) &&  <EventDeleteFab />
+            }
  
         </div>
     )
