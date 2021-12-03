@@ -17,14 +17,13 @@ import { PrivatesRoutes } from './PrivatesRoutes';
 
 export const AppRouter = () => {
 
-   const dispatch = useDispatch();
-   const { checking, uid } = useSelector( state => state.auth );
-
-   useEffect(() => {
-       
+    const { checking, uid } = useSelector( state => state.auth );
+    
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
        dispatch( startChecking());
    }, [dispatch]);
-
 
    if( checking ) {
         return (<h3> Espere... </h3>);

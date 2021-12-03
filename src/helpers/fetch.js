@@ -28,6 +28,7 @@ const fetchConToken = (endpoint, data, method = "GET") => {
 
     const url = `${baseUrl}/${endpoint}`;
     const token = localStorage.getItem('token') || '';
+    
     if(method === "GET") {
     
         //enviamos los headers en la peticion

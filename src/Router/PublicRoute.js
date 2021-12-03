@@ -13,7 +13,7 @@ import { Route, Redirect } from 'react-router';
         component={ (props) => (
 
                 ( isAuthenticated ) 
-                ? ( <Redirect  to="/login" /> )
+                ? ( <Redirect  to="/" /> )
                 : ( <Component { ...props} />)
          ) }
         />
@@ -25,6 +25,7 @@ PublicRoutes.prototype = {
     isAuthenticated: PropTypes.bool.isRequired,
     component: PropTypes.func.isRequired
 }
+
 
 
 export default PublicRoutes;
