@@ -1,5 +1,5 @@
 // librerias de terceros
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment';
 import 'moment/locale/es';
@@ -15,7 +15,7 @@ import { CalendarEvent } from './CalendarEvent';
 import { CalendarModel } from './CalendarModel';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiOpenModal } from '../../actions/ui';
-import { eventSetActive, limpiarNotaActiva } from '../../actions/events';
+import { eventSetActive, eventsStartLoading, limpiarNotaActiva } from '../../actions/events';
 import { AddNewFab } from '../ui/AddNewFab';
 import { EventDeleteFab } from '../ui/EventDeleteFab';
 
@@ -26,9 +26,15 @@ export const CalendarScreen = () => {
     const dispatch = useDispatch();
 
     const localizer = momentLocalizer(moment);
+
     const {events, activeEvent} = useSelector(state => state.calendar);
 
     const [lastView, setlastView] = useState(localStorage.getItem('lastView' || 'month '));
+
+    useEffect(() => {
+        dispatch( eventsStartLoading());
+    }, [dispatch]);
+
 
     const onDoubleClickDispatch = (e) => {
        

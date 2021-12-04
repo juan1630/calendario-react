@@ -5,7 +5,8 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, eventUpdated, limpiarNotaActiva } from '../../actions/events';
+
+import { eventStartAddNew, eventUpdated, limpiarNotaActiva } from '../../actions/events';
 
 
 const customStyles = {
@@ -99,14 +100,9 @@ export const CalendarModel = () => {
         
         }else {
 
-            dispatch( eventAddNew({
-                ...formValues,
-                _id: new Date().getTime(),
-                user: {
-                    _id: '123ABC',
-                    name: 'Juan Patrón'
-                }
-                // este ID es temporal
+
+            dispatch( eventStartAddNew({
+                ...formValues
             }));
 
 
