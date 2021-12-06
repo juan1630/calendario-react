@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 import { fetchConToken } from '../helpers/fetch';
+import { prepareEvents } from '../helpers/prepareEvents';
 import {types} from '../types/types'; 
 
 // agregamos un evento al state
@@ -67,11 +68,11 @@ export const eventsStartLoading = () => {
          const resp = await fetchConToken('events');
          const body = await resp.json();  
 
-            console.log(body);
+
          if( body.ok ){
 
-            const events = body.events;
-
+            const events = prepareEvents( body.events)
+            console.log(events);
             dispatch(eventLoaded( events ));
          }
          
