@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
 
-import { eventStartAddNew, eventUpdated, limpiarNotaActiva } from '../../actions/events';
+import { eventStartAddNew, eventUpdated, limpiarNotaActiva, startUpdateEvent } from '../../actions/events';
 
 
 const customStyles = {
@@ -98,7 +98,7 @@ export const CalendarModel = () => {
         }
 
         if( activeEvent ) {
-            dispatch( eventUpdated( formValues) )
+            dispatch( startUpdateEvent( formValues) )
         
         }else {
 
@@ -208,8 +208,7 @@ export const CalendarModel = () => {
                     rows="5"
                     name="notes"
                     value={ notes }
-                    onChange={handleInputChange}
-                ></textarea>
+                    onChange={handleInputChange}></textarea>
                 <small id="emailHelp" className="form-text text-muted">Información adicional</small>
             </div>
 
