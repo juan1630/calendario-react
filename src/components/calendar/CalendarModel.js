@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
 
-import { eventStartAddNew, eventUpdated, limpiarNotaActiva } from '../../actions/events';
+import { eventStartAddNew, eventUpdated, limpiarNotaActiva, startUpdateEvent } from '../../actions/events';
 
 
 const customStyles = {
@@ -25,7 +25,9 @@ const customStyles = {
 Modal.setAppElement('#root');
   // configuracion para que la hora salga en  3:00:00
   const now = moment().minutes(0).seconds(0).add(1, 'hours');
-  const datePlus1 = now.clone().add(1, 'hours');
+  const datePlus1 = now.clone().add(2, 'hours');
+
+  console.log( datePlus1 )
 // se pudo afuera para que cada vez que se genera un nuevo cambio se vuelva a iniciaalizar el event
   const initEvent = {
     
@@ -96,7 +98,7 @@ export const CalendarModel = () => {
         }
 
         if( activeEvent ) {
-            dispatch( eventUpdated( formValues) )
+            dispatch( startUpdateEvent( formValues) )
         
         }else {
 
@@ -121,7 +123,10 @@ export const CalendarModel = () => {
     }
 
     const handleStartDateChange = (e) => {
-        setdateStart( e );
+       
+        console.log(e)
+        
+        setdateStart( e);
         setformValues({
             ...formValues,
             start: e
@@ -164,7 +169,8 @@ export const CalendarModel = () => {
                 <DateTimePicker
                     onChange={handleStartDateChange}
                     value={dateStart}
-                    className="form-control "
+                    className="form-control"
+                    minDate={ dateStart }
                 />
             </div>
 
@@ -202,8 +208,7 @@ export const CalendarModel = () => {
                     rows="5"
                     name="notes"
                     value={ notes }
-                    onChange={handleInputChange}
-                ></textarea>
+                    onChange={handleInputChange}></textarea>
                 <small id="emailHelp" className="form-text text-muted">Información adicional</small>
             </div>
 

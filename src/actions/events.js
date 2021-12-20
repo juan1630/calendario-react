@@ -49,7 +49,32 @@ const eventAddNew = (event) => ({
 export const limpiarNotaActiva = () => ({  type: types.eventClearActiveNote  });
 
 
-export const eventUpdated = (event) => ({
+export const startUpdateEvent = (event) => {
+   
+
+   return async(dispatch) => {
+      
+      try {
+
+         const url = 'events/update/' +event.id
+         const resp = await fetchConToken( url, event ,'PUT');
+         const dataREsp = await resp.json();
+         console.log( dataREsp)
+
+         if(dataREsp) {
+            dispatch(eventUpdated(event))
+            Swal.fire('Evento cambiado','', 'success')
+         }else {
+            Swal.fire('Algo salio mal','Intenta de nuevo', 'error')
+         }
+
+      } catch (error) {
+            console.log(error);
+      }
+   }
+}
+
+ const eventUpdated = (event) => ({
    type: types.eventUpdated,
    payload: event
 });
