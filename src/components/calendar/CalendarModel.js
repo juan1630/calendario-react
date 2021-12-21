@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
 
-import { eventStartAddNew, eventUpdated, limpiarNotaActiva, startUpdateEvent } from '../../actions/events';
+import { eventStartAddNew, limpiarNotaActiva, startUpdateEvent } from '../../actions/events';
 
 
 const customStyles = {

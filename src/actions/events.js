@@ -16,8 +16,6 @@ export const eventStartAddNew = (event) => {
 
       const resp = await fetchConToken('events/new', event, 'POST');
       const body =  await resp.json();
-
-      console.log(body);
       
       if( body.ok ) {
 
@@ -32,7 +30,27 @@ export const eventStartAddNew = (event) => {
    }
 }
 
+export const startDeleteEvent = () => {
 
+   return async (dispatch, getState) => {
+
+         const {id} = getState().calendar.activeEvent;
+
+         const urlDelete = 'events/delete/' + id;
+         const resp = await fetchConToken( urlDelete, {},'DELETE',  );
+         const data = await resp.json();
+
+         if(data.ok){
+            Swal.fire('Evento elimnado', '', 'success')
+            dispatch(eventDeleted() )
+
+         }else {
+            Swal.fire('No se pude eliminar', '', 'error')
+         }
+   }
+}
+
+//TODO ELIMINAR TODO EL STATE DEL STORE
 const eventAddNew = (event) => ({ 
     type: types.eventAddNew,
     payload: event
